@@ -1,0 +1,4 @@
+/venv
+/chroma_db
+pipeline.log
+/__pycache__

@@ -1,0 +1,37 @@
+{
+  "embedding": {
+    "model_name": "embed-english-v3.0",
+    "api_key": "4XtMl3TDS0y3MieMjic27HzISo7jyywaKvnAFUjc",
+    "batch_size": 96,
+    "input_type": "search_document"
+  },
+  "chunking": {
+    "chunk_size": 800,
+    "chunk_overlap": 120,
+    "separators": ["\n\n", "\n", ". ", " ", ""]
+  },
+  "vector_db": {
+    "db_type": "chromadb",
+    "collection_name": "documents",
+    "persist_directory": "./chroma_db",
+    "distance_metric": "cosine"
+  },
+  "phase2": {
+    "reranker_type": "cohere",
+    "cohere_api_key": "4XtMl3TDS0y3MieMjic27HzISo7jyywaKvnAFUjc",
+    "llm": {
+      "backend": "gemini",
+      "gemini_api_key": "AIzaSyAniHVQuJuA7WoBSDP177O5Zf8wkHGVQ-0",
+      "groq_api_key": "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",
+      "groq_model": "llama-3.1-70b-versatile"
+    },
+    "retrieval": {
+      "initial_top_k": 25,
+      "rerank_top_k": 6,
+      "max_context_chars": 6000
+    },
+    "cache_size": 256
+  },
+  "supported_formats": [".pdf", ".docx", ".pptx", ".txt"],
+  "max_file_size_mb": 100
+}

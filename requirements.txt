@@ -1,0 +1,17 @@
+# requirements.txt
+unstructured[all-docs]==0.11.8
+pdfminer.six==20221105
+chromadb==0.4.18
+cohere==4.37
+python-docx
+python-pptx==0.6.23
+pypdf==3.17.1
+pandas==2.1.4
+numpy==1.24.3
+aiofiles==23.2.0
+
+# Phase 2 additions
+aiohttp==3.9.1
+google-generativeai==0.3.2
+async-cache==1.1.1
+pytest-asyncio==0.21.1
