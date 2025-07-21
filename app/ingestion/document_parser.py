@@ -7,6 +7,8 @@ from typing import List, Dict, Any, Optional, Union
 from dataclasses import dataclass
 from datetime import datetime
 import mimetypes
+from app.ingestion.multimodal_processor import MultimodalProcessor
+import os
 
 # Third-party imports
 from unstructured.partition.pdf import partition_pdf
@@ -39,6 +41,8 @@ class DocumentParser:
         self.config = config
         self.logger = logging.getLogger(__name__)
         self.cohere_client = cohere.Client(config.embedding.api_key) if config.embedding.api_key else None
+         # Instantiate multimodal processor (if Gemini key is available in config)
+        self.multimodal_processor = MultimodalProcessor(config.phase2.llm.gemini_api_key, config)
         
     async def parse_document(self, file_path: Union[str, Path]) -> List[DocumentElement]:
         """
@@ -134,13 +138,32 @@ class DocumentParser:
                 element_type = element.__class__.__name__
                 metadata = element.metadata.to_dict() if hasattr(element, 'metadata') else {}
                 
-                # Handle tables specifically
-                if element_type == "Table":
-                    text = self._format_table_as_markdown(element)
+                # # Handle tables specifically
+                # if element_type == "Table":
+                #     text = self._format_table_as_markdown(element)
                 
-                # Handle images/charts with description generation
+                # # Handle images/charts with description generation
+                # elif element_type == "Image":
+                #     text = await self._generate_image_description(element, file_path)
+                
+                # Table enhancement, fallback to current markdown method
+                if element_type == "Table":
+                    # Use HTML or fallback to markdown
+                    table_html = getattr(element, 'metadata', {}).get('text_as_html', None)
+                    context = ""  # You may extract neighboring text if desired
+                    if table_html:
+                        text = await self.multimodal_processor.process_table_element(table_html, context)
+                    else:
+                        text = self._format_table_as_markdown(element)
+    
+                # Multimodal image description enrichment
                 elif element_type == "Image":
-                    text = await self._generate_image_description(element, file_path)
+                    image_data = getattr(element, 'image_data', None)
+                    if image_data:
+                        text = await self.multimodal_processor.process_image_element(image_data)
+                    else:
+                        text = await self._generate_image_description(element, file_path)
+
                 
                 # Extract page number
                 page_number = metadata.get('page_number')

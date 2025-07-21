@@ -17,7 +17,8 @@ async def main():
     
     # Process documents - Updated path
     document_paths = [
-        "data/documents/research_paper_1.pdf"  # Updated to match new structure
+        "data/documents/research_paper_1.pdf", 
+        "data/documents/doc_ppt.pptx"
     ]
     
     try:
