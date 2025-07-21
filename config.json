@@ -16,6 +16,14 @@
     "persist_directory": "./data/chroma_db",
     "distance_metric": "cosine"
   },
+  "multimodal": {
+    "enabled": true,
+    "process_images": true,
+    "process_complex_tables": true,
+    "min_table_size_for_processing": 200,
+    "gemini_model": "gemini-1.5-flash"
+  },
+  
   "phase2": {
     "reranker_type": "cohere",
     "cohere_api_key": "",
