@@ -12,6 +12,7 @@ numpy==1.24.3
 aiofiles==23.2.0
 
 # Phase 2 additions
+Pillow==10.1.0
 aiohttp==3.9.1
 google-generativeai==0.3.2
 async-cache==1.1.1
