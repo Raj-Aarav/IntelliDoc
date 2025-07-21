@@ -1,4 +1,23 @@
-/venv
-/chroma_db
-pipeline.log
-/__pycache__
+# /venv
+# /chroma_db
+# pipeline.log
+# /__pycache__
+# .env
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Vector database
+data/chroma_db/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
